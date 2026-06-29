@@ -24,7 +24,7 @@ func LoadConfig() Config {
 	}
 
 	return Config{
-		Provider: os.Getenv("PROVIDER"),
+		Provider: os.Getenv("TASKPILOT_PROVIDER"),
 
 		JiraBase:  os.Getenv("JIRA_BASE"),
 		JiraEmail: os.Getenv("JIRA_EMAIL"),
