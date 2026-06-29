@@ -30,5 +30,6 @@ func RunWork(cfg core.Config) error {
 	return RunAssistant(
 		assistantName,
 		*task,
+		cfg,
 	)
 }

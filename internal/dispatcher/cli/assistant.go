@@ -6,10 +6,10 @@ import (
 	"taskpilot/internal/core"
 	"taskpilot/internal/plugins/assistants/claude"
 	"taskpilot/internal/plugins/assistants/ollama"
-	"taskpilot/internal/plugins/assistants/openai"
+	"taskpilot/internal/plugins/assistants/opencode"
 )
 
-func RunAssistant(name string, task core.Task) error {
+func RunAssistant(name string, task core.Task, cfg core.Config) error {
 	var assistant core.Assistant
 
 	switch name {
@@ -17,10 +17,10 @@ func RunAssistant(name string, task core.Task) error {
 		assistant = claude.New()
 
 	case "ollama":
-		assistant = ollama.New()
+		assistant = ollama.New(cfg.OllamaModel)
 
-	case "openai":
-		assistant = openai.New()
+	case "opencode":
+		assistant = opencode.New()
 
 	default:
 		return fmt.Errorf(

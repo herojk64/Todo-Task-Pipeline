@@ -16,6 +16,8 @@ type Config struct {
 	JiraToken string
 
 	JiraJQL string
+
+	OllamaModel string
 }
 
 func LoadConfig() Config {
@@ -40,5 +42,7 @@ func LoadConfig() Config {
 		JiraToken: os.Getenv("JIRA_TOKEN"),
 
 		JiraJQL: os.Getenv("JIRA_JQL"),
+
+		OllamaModel: os.Getenv("OLLAMA_MODEL"),
 	}
 }
