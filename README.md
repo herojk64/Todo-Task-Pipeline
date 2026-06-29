@@ -64,6 +64,109 @@ TaskPilot:
 
 ---
 
+## Configuration
+
+TaskPilot is configured using environment variables.
+
+### Jira
+
+```bash
+export TASKPILOT_PROVIDER=jira
+
+export JIRA_BASE_URL="https://company.atlassian.net"
+export JIRA_EMAIL="developer@company.com"
+export JIRA_API_TOKEN="your-api-token"
+
+export JIRA_JQL='assignee = currentUser() AND status != Done'
+```
+
+### Example JQL Queries
+
+My active work:
+
+```text
+assignee = currentUser() AND status != Done
+```
+
+High-priority issues:
+
+```text
+assignee = currentUser()
+AND priority in (Highest, High)
+AND status != Done
+```
+
+Current sprint:
+
+```text
+assignee = currentUser()
+AND sprint in openSprints()
+```
+
+Backend tasks:
+
+```text
+project = API
+AND labels = backend
+AND status != Done
+```
+
+Bug fixes:
+
+```text
+assignee = currentUser()
+AND issuetype = Bug
+AND status != Done
+```
+
+TaskPilot does not restrict JQL usage. Any valid Jira query can be used.
+
+### Fake Provider
+
+For development and testing:
+
+```bash
+export TASKPILOT_PROVIDER=fake
+```
+
+---
+
+### Assistant Configuration
+
+TaskPilot does not install or configure AI assistants.
+
+Assistants must already be available on your system.
+
+Examples:
+
+```bash
+claude --version
+```
+
+```bash
+ollama --version
+```
+
+TaskPilot simply discovers and launches configured assistants.
+
+---
+
+### Verify Configuration
+
+Run:
+
+```bash
+taskpilot sync
+```
+
+If configuration is valid, tasks should be imported into Taskwarrior.
+
+View imported tasks:
+
+```bash
+task +jira
+```
+
 ### Provider Architecture
 
 Providers are pluggable.
@@ -130,6 +233,7 @@ taskpilot sync
 Imports tasks from the configured provider into Taskwarrior.
 
 ---
+
 
 ### Work On A Task
 
