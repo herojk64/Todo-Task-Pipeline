@@ -73,9 +73,9 @@ TaskPilot is configured using environment variables.
 ```bash
 export TASKPILOT_PROVIDER=jira
 
-export JIRA_BASE_URL="https://company.atlassian.net"
+export JIRA_BASE="https://company.atlassian.net"
 export JIRA_EMAIL="developer@company.com"
-export JIRA_API_TOKEN="your-api-token"
+export JIRA_TOKEN="your-api-token"
 
 export JIRA_JQL='assignee = currentUser() AND status != Done'
 ```

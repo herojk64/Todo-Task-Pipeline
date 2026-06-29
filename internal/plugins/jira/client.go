@@ -54,6 +54,8 @@ func (c *Client) do(req *http.Request) ([]byte, error) {
 		return nil, fmt.Errorf("jira error %d: %s", resp.StatusCode, string(b))
 	}
 
+	fmt.Println(b)
+
 	return b, nil
 }
 
@@ -109,6 +111,8 @@ func (c *Client) FetchIssues(jql string) ([]Issue, error) {
 	if err := json.Unmarshal(respBytes, &result); err != nil {
 		return nil, err
 	}
+
+	fmt.Println(result.Issues)
 
 	return result.Issues, nil
 }

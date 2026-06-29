@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
@@ -18,9 +19,17 @@ type Config struct {
 }
 
 func LoadConfig() Config {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("warning: .env not found, using system environment")
+	if execPath, err := os.Executable(); err == nil {
+		envPath := filepath.Join(filepath.Dir(execPath), ".env")
+		if godotenv.Load(envPath) != nil {
+			if err := godotenv.Load(); err != nil {
+				fmt.Println("warning: .env not found, using system environment")
+			}
+		}
+	} else {
+		if err := godotenv.Load(); err != nil {
+			fmt.Println("warning: .env not found, using system environment")
+		}
 	}
 
 	return Config{
