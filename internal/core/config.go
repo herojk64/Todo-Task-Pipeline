@@ -13,6 +13,8 @@ type Config struct {
 	JiraBase  string
 	JiraEmail string
 	JiraToken string
+
+	JiraJQL string
 }
 
 func LoadConfig() Config {
@@ -22,10 +24,12 @@ func LoadConfig() Config {
 	}
 
 	return Config{
-		Provider: "jira",
+		Provider: os.Getenv("PROVIDER"),
 
 		JiraBase:  os.Getenv("JIRA_BASE"),
 		JiraEmail: os.Getenv("JIRA_EMAIL"),
 		JiraToken: os.Getenv("JIRA_TOKEN"),
+
+		JiraJQL: os.Getenv("JIRA_JQL"),
 	}
 }

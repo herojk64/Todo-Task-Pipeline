@@ -8,6 +8,16 @@ import (
 	"net/http"
 )
 
+const searchEndPoint = "/rest/api/3/search/jql"
+
+var fields = []string{
+	"key",
+	"summary",
+	"status",
+	"project",
+	"description",
+}
+
 type Client struct {
 	Base  string
 	Email string
@@ -35,7 +45,10 @@ func (c *Client) do(req *http.Request) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	b, _ := io.ReadAll(resp.Body)
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
 
 	if resp.StatusCode >= 400 {
 		return nil, fmt.Errorf("jira error %d: %s", resp.StatusCode, string(b))
@@ -49,21 +62,27 @@ type Issue struct {
 	Fields Fields `json:"fields"`
 }
 
+type Project struct {
+	Key  string `json:"key"`
+	Name string `json:"name"`
+}
+
 type Fields struct {
-	Summary string `json:"summary"`
-	Status  Status `json:"status"`
+	Summary     string  `json:"summary"`
+	Status      Status  `json:"status"`
+	Project     Project `json:"project"`
+	Description any     `json:"description"`
 }
 
 type Status struct {
 	Name string `json:"name"`
 }
 
-func (c *Client) FetchIssues() ([]Issue, error) {
+func (c *Client) FetchIssues(jql string) ([]Issue, error) {
 	body := map[string]any{
-		"jql":    "project IS NOT EMPTY",
-		"fields": []string{"key", "summary", "status"},
+		"jql":    jql,
+		"fields": fields,
 	}
-
 	b, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
@@ -71,7 +90,7 @@ func (c *Client) FetchIssues() ([]Issue, error) {
 
 	req, err := http.NewRequest(
 		"POST",
-		c.Base+"/rest/api/3/search/jql",
+		c.Base+searchEndPoint,
 		bytes.NewBuffer(b),
 	)
 	if err != nil {
@@ -87,6 +106,9 @@ func (c *Client) FetchIssues() ([]Issue, error) {
 		Issues []Issue `json:"issues"`
 	}
 
-	err = json.Unmarshal(respBytes, &result)
-	return result.Issues, err
+	if err := json.Unmarshal(respBytes, &result); err != nil {
+		return nil, err
+	}
+
+	return result.Issues, nil
 }

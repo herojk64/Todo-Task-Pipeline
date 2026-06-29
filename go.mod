@@ -1,4 +1,4 @@
-module jira-task-sync
+module taskpilot
 
 go 1.26.4
 

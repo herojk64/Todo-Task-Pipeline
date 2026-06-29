@@ -11,3 +11,11 @@ type Sink interface {
 type Policy interface {
 	Apply([]Task) []Task
 }
+
+type Assistant interface {
+	Run(task Task) error
+}
+
+type TaskRepository interface {
+	Get(id string) (*Task, error)
+}

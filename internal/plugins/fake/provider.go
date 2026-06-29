@@ -1,6 +1,6 @@
 package fake
 
-import "jira-task-sync/internal/core"
+import "taskpilot/internal/core"
 
 type Provider struct{}
 

@@ -1,6 +1,6 @@
 package rules
 
-import "jira-task-sync/internal/core"
+import "taskpilot/internal/core"
 
 type Policy struct{}
 

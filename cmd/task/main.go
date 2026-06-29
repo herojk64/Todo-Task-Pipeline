@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"jira-task-sync/internal/app"
-	"jira-task-sync/internal/core"
+	"taskpilot/internal/app"
+	"taskpilot/internal/core"
 )
 
 func main() {
